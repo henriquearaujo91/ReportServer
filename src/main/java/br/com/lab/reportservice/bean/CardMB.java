@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import br.com.lab.reportservice.model.Card;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperRunManager;
@@ -48,94 +49,79 @@ public class CardMB {
 	}
 
 	public void exportPDF(ActionEvent actionEvent) throws JRException, IOException {
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("txtUsuario", "MitoCode");
-
-		File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/rptJSF.jasper"));
-		JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(), parameters,
+		File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/card.jasper"));
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(), null,
 				new JRBeanCollectionDataSource(cards));
 
 		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
 				.getResponse();
-		response.addHeader("Content-disposition", "attachment; filename=jsfReporte.xls");
+		response.addHeader("Content-disposition", "attachment; filename=jsfReporte.pdf");
 		ServletOutputStream stream = response.getOutputStream();
 
-		JRXlsExporter exporter = new JRXlsExporter();
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, stream);
-		exporter.exportReport();
-
+		JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
 		stream.flush();
 		stream.close();
+
 		FacesContext.getCurrentInstance().responseComplete();
 	}
 
 	public void exportPPT(ActionEvent actionEvent) throws JRException, IOException {
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("txtUsuario", "MitoCode");
-
-		File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/rptJSF.jasper"));
-		JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(), parameters,
+		File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/card.jasper"));
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(), null,
 				new JRBeanCollectionDataSource(cards));
 
 		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
 				.getResponse();
 		response.addHeader("Content-disposition", "attachment; filename=jsfReporte.ppt");
-		ServletOutputStream stream = response.getOutputStream();
+		ServletOutputStream outStream = response.getOutputStream();
 
 		JRPptxExporter exporter = new JRPptxExporter();
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, stream);
+		exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, outStream);
 		exporter.exportReport();
 
-		stream.flush();
-		stream.close();
+		outStream.flush();
+		outStream.close();
 		FacesContext.getCurrentInstance().responseComplete();
 	}
 
 	public void exportExcel(ActionEvent actionEvent) throws JRException, IOException {
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("txtUsuario", "MitoCode");
-
-		File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/rptJSF.jasper"));
-		JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(), parameters,
+		File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/card.jasper"));
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(), null,
 				new JRBeanCollectionDataSource(cards));
 
 		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
 				.getResponse();
 		response.addHeader("Content-disposition", "attachment; filename=jsfReporte.xls");
-		ServletOutputStream stream = response.getOutputStream();
+		ServletOutputStream outStream = response.getOutputStream();
 
 		JRXlsExporter exporter = new JRXlsExporter();
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, stream);
+		exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, outStream);
 		exporter.exportReport();
 
-		stream.flush();
-		stream.close();
+		outStream.flush();
+		outStream.close();
 		FacesContext.getCurrentInstance().responseComplete();
 	}
 
 	public void exportDOC(ActionEvent actionEvent) throws JRException, IOException {
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("txtUsuario", "MitoCode");
-
-		File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/rptJSF.jasper"));
-		JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(), parameters,
+		File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/card.jasper"));
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(), null,
 				new JRBeanCollectionDataSource(cards));
 
 		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
 				.getResponse();
 		response.addHeader("Content-disposition", "attachment; filename=jsfReporte.doc");
-		ServletOutputStream stream = response.getOutputStream();
+		ServletOutputStream outStream = response.getOutputStream();
 
 		JRDocxExporter exporter = new JRDocxExporter();
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, stream);
+		exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, outStream);
 		exporter.exportReport();
 
-		stream.flush();
-		stream.close();
+		outStream.flush();
+		outStream.close();
 		FacesContext.getCurrentInstance().responseComplete();
 	}
 
