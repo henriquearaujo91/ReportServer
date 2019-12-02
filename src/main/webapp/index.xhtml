@@ -1,0 +1,18 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+
+<h:head></h:head> 
+<body> 
+	<h1>JSF + Jasper Reports  Exports</h1>
+	<h:form>
+		<h:commandButton value="Exportar PDF" actionListener="#{cardMB.exportPDF}"/>
+		<h:commandButton value="Ver PDF" actionListener="#{cardMB.loadPDF}"/>
+		<h:commandButton value="Exportar Excel" actionListener="#{cardMB.exportExcel}"/>
+		<h:commandButton value="Exportar DOC" actionListener="#{cardMB.exportDOC}"/>
+		<h:commandButton value="Exportar PPT" actionListener="#{cardMB.exportPPT}"/>		
+	</h:form>
+</body> 
+</html>
