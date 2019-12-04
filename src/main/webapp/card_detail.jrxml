@@ -6,6 +6,8 @@
 		<![CDATA[]]>
 	</queryString>
 	<field name="phone" class="java.lang.String"/>
+	<field name="cod" class="java.lang.Integer"/>
+	<field name="name" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -15,9 +17,40 @@
 				<reportElement x="0" y="0" width="280" height="130" backcolor="#D2E0F7" uuid="a7034ff8-01cd-48b3-88a5-b84387c43753"/>
 			</rectangle>
 			<textField>
-				<reportElement x="0" y="0" width="130" height="40" uuid="db68f4d7-6d0b-4aed-8a38-75f22b5ef653"/>
+				<reportElement x="80" y="70" width="190" height="30" uuid="db68f4d7-6d0b-4aed-8a38-75f22b5ef653"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{phone}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="10" y="1" width="70" height="30" uuid="fbc102aa-ac72-480a-90e3-9475d6db7192"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cod}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="40" width="190" height="30" uuid="2eebf960-0166-46b4-8f13-cdec8ca23c8d"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="40" width="70" height="30" uuid="496becb1-b1cb-4596-93dd-213335e328ae"/>
+				<textElement textAlignment="Left">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Nome:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="70" width="70" height="30" uuid="72e22007-f6b9-46a4-aad7-2b7170c0e722"/>
+				<textElement textAlignment="Left">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Telefone:]]></text>
+			</staticText>
 		</band>
 	</detail>
 </jasperReport>

@@ -56,7 +56,8 @@ public class CardMB {
 	private void loadDataFile() {
 		params = new HashMap<String, Object>();
 		params.put("cards", cards);
-		params.put("title", "Impressão de cartões");
+		params.put("title", "Impressão de cartões dos thundercats");
+		params.put("copyright", "© Copyright 1985-2019 thundercats.com.br - All Rights Reserved");
 	}
 
 	public void exportPDF(ActionEvent actionEvent) {

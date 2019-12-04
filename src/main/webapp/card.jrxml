@@ -6,6 +6,7 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Java adapter"/>
 	<parameter name="cards" class="java.util.ArrayList" nestedType="java.lang.Object"/>
 	<parameter name="title" class="java.lang.String"/>
+	<parameter name="copyright" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -14,42 +15,38 @@
 	</background>
 	<title>
 		<band height="50" splitType="Stretch">
-			<image>
-				<reportElement x="0" y="0" width="50" height="50" uuid="c46dcb31-9df6-498c-ade8-d4c1c5ec49ea"/>
-				<imageExpression><![CDATA["invoice_logo.png"]]></imageExpression>
-			</image>
-		</band>
-	</title>
-	<pageHeader>
-		<band height="30" splitType="Stretch">
 			<textField>
-				<reportElement x="280" y="0" width="270" height="30" uuid="a48f0a0c-b37f-47c9-9a8a-f1f4a42a3b2c"/>
+				<reportElement x="180" y="0" width="370" height="50" uuid="a48f0a0c-b37f-47c9-9a8a-f1f4a42a3b2c"/>
 				<textElement verticalAlignment="Middle">
 					<font size="16"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{title}]]></textFieldExpression>
 			</textField>
+			<image>
+				<reportElement x="0" y="0" width="50" height="50" uuid="fb0753d9-9d00-49e6-865f-e8fc4af753f5"/>
+				<imageExpression><![CDATA["logo.png"]]></imageExpression>
+			</image>
 		</band>
+	</title>
+	<pageHeader>
+		<band height="30" splitType="Stretch"/>
 	</pageHeader>
-	<columnHeader>
-		<band height="61" splitType="Stretch"/>
-	</columnHeader>
 	<detail>
-		<band height="200">
+		<band height="30">
 			<subreport>
-				<reportElement x="0" y="0" width="200" height="200" uuid="0a611f89-151b-407c-9f75-fa6a820b4062"/>
+				<reportElement x="0" y="0" width="550" height="30" uuid="0a611f89-151b-407c-9f75-fa6a820b4062"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{cards})]]></dataSourceExpression>
 				<subreportExpression><![CDATA["card_detail.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="45" splitType="Stretch"/>
-	</columnFooter>
 	<pageFooter>
-		<band height="54" splitType="Stretch"/>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="550" height="20" uuid="89f2e90a-7145-4625-af44-3b86214b5f04"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$P{copyright}]]></textFieldExpression>
+			</textField>
+		</band>
 	</pageFooter>
-	<summary>
-		<band height="42" splitType="Stretch"/>
-	</summary>
 </jasperReport>
