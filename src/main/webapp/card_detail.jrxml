@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="card_detail" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0ffdda6d-d838-48a9-bcf1-9b8a24998a1f">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Java adapter"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="phone" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="136" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="280" height="130" backcolor="#D2E0F7" uuid="a7034ff8-01cd-48b3-88a5-b84387c43753"/>
+			</rectangle>
+			<textField>
+				<reportElement x="0" y="0" width="130" height="40" uuid="db68f4d7-6d0b-4aed-8a38-75f22b5ef653"/>
+				<textFieldExpression><![CDATA[$F{phone}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
