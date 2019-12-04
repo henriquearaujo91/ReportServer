@@ -14,9 +14,9 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 import br.com.lab.reportservice.model.Card;
+import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -24,8 +24,13 @@ import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
+import net.sf.jasperreports.export.SimpleDocxExporterConfiguration;
+import net.sf.jasperreports.export.SimpleExporterConfiguration;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimplePptxExporterConfiguration;
+import net.sf.jasperreports.export.SimpleXlsxExporterConfiguration;
 
-@SuppressWarnings("deprecation")
 @ManagedBean
 @RequestScoped
 public class CardMB {
@@ -34,8 +39,8 @@ public class CardMB {
 
 	public CardMB() {
 		super();
-		this.loadCards();
-		this.loadDataFile();
+		loadCards();
+		loadDataFile();
 	}
 
 	private void loadCards() {
@@ -99,17 +104,13 @@ public class CardMB {
 		File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath(jasperDir));
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(), params, new JREmptyDataSource());
 
+		List<JasperPrint> jasperPrints = new ArrayList<>();
+		jasperPrints.add(jasperPrint);
+
 		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
 				.getResponse();
 
-		byte[] bytes = null;
-		if (typeFile.equalsIgnoreCase("LOAD_PDF")) {
-			bytes = JasperRunManager.runReportToPdf(jasper.getPath(), params, new JREmptyDataSource());
-			response.setContentType("application/pdf");
-			response.setContentLength(bytes.length);
-		} else {
-			response.addHeader("Content-disposition", "attachment; filename=".concat(fileName));
-		}
+		byte[] bytes = loadHttpServletResponse(response, jasper, typeFile, fileName);
 
 		ServletOutputStream stream = response.getOutputStream();
 
@@ -121,28 +122,42 @@ public class CardMB {
 			stream.write(bytes, 0, bytes.length);
 			break;
 		case "PPT":
-			JRPptxExporter exporterPPT = new JRPptxExporter();
-			exporterPPT.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-			exporterPPT.setParameter(JRExporterParameter.OUTPUT_STREAM, stream);
-			exporterPPT.exportReport();
+			exportReportToStream(jasperPrints, stream, new JRPptxExporter(), new SimplePptxExporterConfiguration());
 			break;
 		case "XLS":
-			JRXlsExporter exporterXLS = new JRXlsExporter();
-			exporterXLS.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-			exporterXLS.setParameter(JRExporterParameter.OUTPUT_STREAM, stream);
-			exporterXLS.exportReport();
+			exportReportToStream(jasperPrints, stream, new JRXlsExporter(), new SimpleXlsxExporterConfiguration());
 			break;
 		case "DOC":
-			JRDocxExporter exporterDOC = new JRDocxExporter();
-			exporterDOC.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-			exporterDOC.setParameter(JRExporterParameter.OUTPUT_STREAM, stream);
-			exporterDOC.exportReport();
+			exportReportToStream(jasperPrints, stream, new JRDocxExporter(), new SimpleDocxExporterConfiguration());
 			break;
 		}
 
 		stream.flush();
 		stream.close();
 		FacesContext.getCurrentInstance().responseComplete();
+	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private void exportReportToStream(List<JasperPrint> jasperPrints, ServletOutputStream stream,
+			JRAbstractExporter exporter, SimpleExporterConfiguration configuration) throws JRException {
+		exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrints));
+		exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(stream));
+		exporter.setConfiguration(configuration);
+		exporter.exportReport();
+	}
+
+	private byte[] loadHttpServletResponse(final HttpServletResponse response, File jasper, String typeFile,
+			String fileName) throws JRException {
+		byte[] bytes = null;
+		
+		if (typeFile.equalsIgnoreCase("LOAD_PDF")) {
+			bytes = JasperRunManager.runReportToPdf(jasper.getPath(), params, new JREmptyDataSource());
+			response.setContentType("application/pdf");
+			response.setContentLength(bytes.length);
+		} else {
+			response.addHeader("Content-disposition", "attachment; filename=".concat(fileName));
+		}
+
+		return bytes;
 	}
 }
